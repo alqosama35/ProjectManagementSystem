@@ -1,0 +1,280 @@
+classDiagram
+    class User {
+        <<abstract>>
+        -String userId
+        -String username
+        -String password
+        -String email
+        -UserRole role
+        +login()
+        +logout()
+        +changePassword()
+    }
+
+    class Employee extends User {
+        -List~Task~ assignedTasks
+        -WorkHours monthlyWorkHours
+        -List~Penalty~ penalties
+        +enterWorkTime(DateTime entryTime, DateTime exitTime)
+        +requestVacation(VacationRequest request)
+        +viewAssignedTasks()
+        +markTaskComplete(Task task)
+    }
+
+    class TeamLeader extends Employee {
+        +assignTask(Task task, Employee employee)
+        +manageEmployees(List~Employee~ employees)
+        +viewCompletedTasks()
+        +generateEmployeeReport(Employee employee)
+    }
+
+    class ProjectManager extends User {
+        -List~Project~ managedProjects
+        +viewProjectCompletion(Project project)
+        +generateTeamReport()
+        +createProjectReport()
+    }
+
+    class Admin extends User {
+        +addUser(User user)
+        +updateUser(User user)
+        +deleteUser(String userId)
+        +viewAllProjects()
+        +manageUserRoles()
+    }
+
+    class Task {
+        -String taskId
+        -String description
+        -TaskStatus status
+        -DateTime deadline
+        -Employee assignedEmployee
+        +updateStatus(TaskStatus status)
+        +assignEmployee(Employee employee)
+    }
+
+    class Project {
+        -String projectId
+        -String projectName
+        -List~Task~ projectTasks
+        -ProjectStatus status
+        -ProjectManager projectManager
+        +calculateCompletionPercentage()
+        +addTask(Task task)
+        +removeTask(Task task)
+    }
+
+    class WorkHours {
+        -DateTime entryTime
+        -DateTime exitTime
+        -Duration totalHours
+        +calculateMonthlyHours()
+        +generateWorkReport()
+    }
+
+    class Penalty {
+        -String penaltyId
+        -String description
+        -DateTime date
+        -double amount
+    }
+
+    class VacationRequest {
+        -Employee requestor
+        -DateTime startDate
+        -DateTime endDate
+        -VacationStatus status
+        +approve()
+        +reject()
+    }
+
+    class UserAuthentication {
+        <<interface>>
+        +login(String username, String password)
+        +logout()
+        +resetPassword()
+    }
+
+    class FileHandler {
+        <<interface>>
+        +saveToFile(Object data)
+        +readFromFile(String filename)
+        +updateFile(Object data)
+        +deleteFromFile(String identifier)
+    }
+
+    enum UserRole {
+        ADMIN
+        EMPLOYEE
+        TEAM_LEADER
+        PROJECT_MANAGER
+    }
+
+    enum TaskStatus {
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+        OVERDUE
+    }
+
+    enum ProjectStatus {
+        PLANNING
+        IN_PROGRESS
+        ON_HOLD
+        COMPLETED
+    }
+
+    enum VacationStatus {
+        PENDING
+        APPROVED
+        REJECTED
+    }
+
+    User <|-- Employee
+    User <|-- TeamLeader
+    User <|-- ProjectManager
+    User <|-- Admin
+
+    TeamLeader "1" -- "*" Employee: manages
+    ProjectManager "1" -- "*" Project: manages
+    Employee "1" -- "*" Task: has
+    Project "1" -- "*" Task: contains
+    Employee "1" -- "*" VacationRequest: submits
+    Employee "1" -- "*" Penalty: receives
+    Employee "1" -- "1" WorkHours: tracks
+--------------------------------------------------------------------------------
+-->new diagram<--
+classDiagram
+    class User {
+        <<abstract>>
+        -String id
+        -String username
+        -String password
+        -String email
+        -UserRole role
+        +login()
+        +logout()
+        +changePassword()
+    }
+
+    class UserAuthentication {
+        <<interface>>
+        +login(String username, String password)
+        +logout()
+        +resetPassword()
+    }
+
+    class FileHandler {
+        <<interface>>
+        +saveToFile(Object data)
+        +readFromFile(String filename)
+        +updateFile(Object data)
+        +deleteFromFile(String identifier)
+    }
+
+    class Admin extends User implements UserAuthentication, FileHandler {
+        +addUser(User user)
+        +updateUser(User user)
+        +deleteUser(String userId)
+        +viewAllProjects()
+        +manageUserRoles()
+    }
+
+    class Employee extends User implements UserAuthentication {
+        -List~Task~ assignedTasks
+        -WorkHours workHours
+        -List~Penalty~ penalties
+        +enterWorkTime(DateTime entryTime, DateTime exitTime)
+        +requestVacation(VacationRequest request)
+        +viewAssignedTasks()
+        +markTaskComplete(Task task)
+    }
+
+    class TeamLeader extends Employee implements FileHandler {
+        +assignTask(Task task, Employee employee)
+        +manageEmployees(List~Employee~ employees)
+        +viewCompletedTasks()
+        +generateEmployeeReport(Employee employee)
+        +approveVacationRequest(VacationRequest request)
+        +rejectVacationRequest(VacationRequest request)
+        +assignPenalty(Employee employee, Penalty penalty)
+        +approvePenalty(Penalty penalty)
+        +rejectPenalty(Penalty penalty)
+    }
+
+    class ProjectManager extends User implements UserAuthentication, FileHandler {
+        -List~Project~ managedProjects
+        +viewProjectCompletion(Project project)
+        +generateTeamReport()
+        +createProjectReport()
+    }
+
+    class Task {
+        -String taskId
+        -String description
+        -TaskStatus status
+        -DateTime deadline
+        -Employee assignedEmployee
+        +updateStatus(TaskStatus status)
+        +assignEmployee(Employee employee)
+    }
+
+    class Project {
+        -String projectId
+        -String projectName
+        -List~Task~ projectTasks
+        -ProjectStatus status
+        -ProjectManager projectManager
+        +calculateCompletionPercentage()
+        +addTask(Task task)
+        +removeTask(Task task)
+    }
+
+    class WorkHours {
+        -DateTime entryTime
+        -DateTime exitTime
+        -Duration totalHours
+        +calculateMonthlyHours()
+        +generateWorkReport()
+    }
+
+    class VacationRequest {
+        -Employee requestor
+        -DateTime startDate
+        -DateTime endDate
+        -VacationStatus vacationStatus
+        +approve()
+        +reject()
+    }
+
+    class Penalty {
+        -String penaltyId
+        -String description
+        -DateTime date
+        -double amount
+    }
+
+    class UserManagementSystem {
+        -UserAuthentication authStrategy
+        -FileHandler fileHandlingStrategy
+        +setAuthenticationStrategy(UserAuthentication strategy)
+        +setFileHandlingStrategy(FileHandler strategy)
+    }
+
+    class AuthenticationService implements UserAuthentication {
+        +login(String username, String password)
+        +logout()
+        +resetPassword()
+    }
+
+    class DatabaseFileHandler implements FileHandler {
+        +saveToFile(Object data)
+        +readFromFile(String filename)
+        +updateFile(Object data)
+        +deleteFromFile(String identifier)
+    }
+
+    UserManagementSystem --> UserAuthentication: uses
+    UserManagementSystem --> FileHandler: uses
+    TeamLeader "1" -- "*" VacationRequest: manages
+    TeamLeader "1" -- "*" Penalty: manages
