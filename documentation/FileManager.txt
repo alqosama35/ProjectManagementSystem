@@ -1,0 +1,93 @@
+/**
+ * A utility class for managing files related to project management system data.
+ * Implements the FileHandler interface for saving, reading, updating, and deleting data.
+ */
+public class FileManager implements FileHandler {
+    private static final String DATA_DIR = "data/";
+
+    /**
+     * Saves the given data object to a JSON file with the specified filename.
+     *
+     * @param data The data object to be saved.
+     * @param filename The name of the JSON file without the extension.
+     */
+    public void saveToFile(Object data, String filename) {
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(data);
+
+            File dir = new File(DATA_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            FileWriter writer = new FileWriter(DATA_DIR + filename + ".json");
+            writer.write(json);
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("Error saving data to file: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Reads and deserializes data from a JSON file with the specified filename.
+     *
+     * @param filename The name of the JSON file without the extension.
+     * @param clazz The class of the data object to be returned.
+     * @return The deserialized data object or null if an error occurs.
+     */
+    public Object readFromFile(String filename, Class clazz) {
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(DATA_DIR + filename + ".json");
+            Object obj = gson.fromJson(reader, clazz);
+            reader.close();
+            return obj;
+        } catch (IOException e) {
+            System.err.println("Error reading data from file: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Reads and deserializes an array of data from a JSON file with the specified filename.
+     *
+     * @param filename The name of the JSON file without the extension.
+     * @param clazz The class of the array elements.
+     * @return The deserialized ArrayList of data objects or null if an error occurs.
+     */
+    public <T> ArrayList<T> readArrayFromFile(String filename, Class<T[]> clazz) {
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(DATA_DIR + filename + ".json");
+            T[] array = gson.fromJson(reader, clazz);
+            reader.close();
+
+            return new ArrayList<>(Arrays.asList(array));
+        } catch (IOException e) {
+            System.err.println("Error reading data from file: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Updates a JSON file by deleting the existing file and saving the new data.
+     *
+     * @param data The new data object to be saved.
+     * @param filename The name of the JSON file without the extension.
+     */
+    public void updateFile(Object data, String filename) {
+        deleteFromFile(filename);
+        saveToFile(data, filename);
+    }
+
+    /**
+     * Deletes a JSON file with the specified filename.
+     *
+     * @param filename The name of the JSON file without the extension.
+     */
+    public void deleteFromFile(String filename) {
+        File file = new File(DATA_DIR + filename + ".json");
+        file.delete();
+    }
+}

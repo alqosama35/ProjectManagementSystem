@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileManager Class Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #444;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        code {
+            background-color: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>FileManager Class Documentation</h1>
+    <h2>Overview</h2>
+    <p>The <code>FileManager</code> class is a utility for managing JSON files related to a project management system. It implements the <code>FileHandler</code> interface to provide methods for saving, reading, updating, and deleting data. This class leverages the <code>Gson</code> library for serialization and deserialization of data to and from JSON format.</p>
+
+    <h3>Package</h3>
+    <p><code>projectmanagement.utils</code></p>
+
+    <h3>Dependencies</h3>
+    <ul>
+        <li><code>com.google.gson.Gson</code></li>
+        <li><code>java.io.*</code></li>
+        <li><code>java.util.ArrayList</code></li>
+        <li><code>java.util.Arrays</code></li>
+    </ul>
+
+    <h2>Fields</h2>
+    <h3>DATA_DIR</h3>
+    <ul>
+        <li><strong>Description:</strong> Directory path for storing JSON files.</li>
+        <li><strong>Value:</strong> <code>"data/"</code></li>
+        <li><strong>Access:</strong> Private, constant.</li>
+    </ul>
+
+    <h2>Methods</h2>
+    <h3>saveToFile</h3>
+    <pre><code>public void saveToFile(Object data, String filename)</code></pre>
+    <p><strong>Description:</strong> Serializes the given data object into JSON format and saves it to a file in the <code>DATA_DIR</code> directory.</p>
+    <ul>
+        <li><strong>Parameters:</strong>
+            <ul>
+                <li><code>data</code>: The data object to be serialized and saved.</li>
+                <li><code>filename</code>: The name of the file (without the <code>.json</code> extension).</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>readFromFile</h3>
+    <pre><code>public Object readFromFile(String filename, Class clazz)</code></pre>
+    <p><strong>Description:</strong> Reads and deserializes data from a JSON file into the specified class type.</p>
+
+    <h2>Usage Examples</h2>
+    <h3>Saving Data to a File</h3>
+    <pre><code>FileManager fileManager = new FileManager();
+User user = new User("John Doe", "john.doe@example.com");
+fileManager.saveToFile(user, "user1");</code></pre>
+
+    <h3>Reading Data from a File</h3>
+    <pre><code>User user = (User) fileManager.readFromFile("user1", User.class);
+System.out.println(user.getName());</code></pre>
+
+    <h2>Limitations</h2>
+    <ul>
+        <li>Files are stored as plain JSON without encryption.</li>
+        <li>Error messages are logged to the console but are not propagated to calling code.</li>
+        <li>Requires <code>Gson</code> library for JSON serialization and deserialization.</li>
+    </ul>
+
+    <h2>Recommended Improvements</h2>
+    <ul>
+        <li>Add support for custom directory paths.</li>
+        <li>Enhance error handling to throw exceptions or use a callback mechanism.</li>
+        <li>Include JSON schema validation to ensure data integrity.</li>
+    </ul>
+</div>
+</body>
+</html>
