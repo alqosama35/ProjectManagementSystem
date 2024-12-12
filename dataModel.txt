@@ -1,0 +1,50 @@
+User:
+{
+  "users": [
+    {
+      "userId": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "role": "Employee",
+      "password": "hashed_password",
+      "assignedTasks": [101, 102],
+      "workHours": [
+        { "entryTime": "2024-12-10T08:00:00Z", "exitTime": "2024-12-10T16:00:00Z", "duration": 8 }
+      ],
+      "penalties": [
+        { "penaltyId": 1, "description": "Late submission", "date": "2024-12-01", "amount": 50 }
+      ],
+      "vacationRequests": [
+        { "startDate": "2024-12-20", "endDate": "2024-12-25", "status": "Approved" }
+      ]
+    }
+  ]
+}
+----------------------------------------------------------------------------------------------------------------
+Task:
+{
+  "tasks": [
+    {
+      "taskId": 101,
+      "description": "Complete project module",
+      "status": "In Progress",
+      "assignedTo": 1,
+      "deadline": "2024-12-31"
+    }
+  ]
+}
+----------------------------------------------------------------------------------------------------------------
+Project:
+{
+  "projects": [
+    {
+      "projectId": 1,
+      "projectName": "Project Alpha",
+      "teamLeadId": 2,
+      "managerId": 3,
+      "tasks": [101, 102],
+      "progress": 75
+    }
+  ]
+}
+
