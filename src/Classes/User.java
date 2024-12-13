@@ -1,5 +1,6 @@
 package Classes;
 
+import Test.TestEmp;
 import Utils.FileManager;
 
 public abstract class User {
@@ -66,16 +67,8 @@ public abstract class User {
         return password;
     }
 
-    public abstract User login(); //{
-//        FileManager fileManager = new FileManager();
-//        User[] users = (User[]) fileManager.readFromFile("User", User[].class);
-//        for (User user : users) {
-//            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-//                return user;
-//            }
-//        }
-//        return null;
-//    }
+    public abstract boolean login();
+
     public void logout() {
         return;
     }
