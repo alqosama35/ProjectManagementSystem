@@ -3,9 +3,12 @@ package Test;
 
 import Classes.User;
 import Utils.FileManager;
+import Enum.Role;
+
+import static Enum.Role.*;
 
 public class TestEmp extends User {
-    public TestEmp(int userId, String name, String email, String role, String password) {
+    public TestEmp(int userId, String name, String email, Role role, String password) {
         super(userId, name, email, role, password);
     }
 
@@ -17,7 +20,7 @@ public class TestEmp extends User {
         FileManager fileManager = new FileManager();
         User[] users = (User[]) fileManager.readFromFile("User", TestEmp[].class);
         for (User user : users) {
-            if (user.getEmail().equals(super.getEmail()) && user.getPassword().equals(super.getPassword()) && user.getRole().equals("employee")) {
+            if (user.getEmail().equals(super.getEmail()) && user.getPassword().equals(super.getPassword()) && user.getRole()== EMP) {
                 // Initialize the object with the found user's details
                 this.setUserId(user.getUserId());
                 this.setName(user.getName());

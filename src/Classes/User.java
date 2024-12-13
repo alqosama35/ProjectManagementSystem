@@ -2,17 +2,18 @@ package Classes;
 
 import Test.TestEmp;
 import Utils.FileManager;
+import Enum.Role;
 
 public abstract class User {
     private int userId;
     private String name;
     private String email;
-    private String role;
+    private Role role;
     private String password;
 
     public User(){}
 
-    public User(int userId, String name, String email, String role, String password) {
+    public User(int userId, String name, String email, Role role, String password) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -20,10 +21,7 @@ public abstract class User {
         this.password = password;
     }
     public User(String email, String password) {
-        this.userId = userId;
-        this.name = name;
         this.email = email;
-        this.role = role;
         this.password = password;
     }
 
@@ -39,7 +37,7 @@ public abstract class User {
         this.email = email;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -59,7 +57,7 @@ public abstract class User {
         return email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
