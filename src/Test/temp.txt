@@ -1,0 +1,97 @@
+package GUI;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class VA_Tasks {
+    private JTable taskTable;
+    private JButton addTaskButton;
+    private JTextField taskNameField;
+    private JComboBox<String> assignedToCombo;
+    private JComboBox<String> taskStatusCombo;
+    private JPanel TaskManagementPanel;
+    private JScrollPane scrollPane; // Add a scroll pane for the table
+
+    public VA_Tasks() {
+        initComponents();
+
+        addTaskButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get task information
+                String taskName = taskNameField.getText();
+                String assignedTo = (String) assignedToCombo.getSelectedItem();
+                String status = (String) taskStatusCombo.getSelectedItem();
+
+                if (taskName.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Task name cannot be empty!");
+                    return;
+                }
+
+                // Add the new task to the table
+                DefaultTableModel model = (DefaultTableModel) taskTable.getModel();
+                model.addRow(new Object[]{taskName, assignedTo, status});
+
+                // Clear the input fields after adding the task
+                taskNameField.setText("");
+                assignedToCombo.setSelectedIndex(0);
+                taskStatusCombo.setSelectedIndex(0);
+
+                // Update UI
+                taskTable.revalidate();
+                taskTable.repaint();
+            }
+        });
+    }
+
+    private void initComponents() {
+        // Main panel
+        TaskManagementPanel = new JPanel(new BorderLayout());
+
+        // Table setup
+        taskTable = new JTable(new DefaultTableModel(new Object[]{"Task Name", "Assigned To", "Status"}, 0));
+        scrollPane = new JScrollPane(taskTable);
+        TaskManagementPanel.add(scrollPane, BorderLayout.CENTER);
+
+        // Input fields
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10)); // 4 rows, 2 columns
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        taskNameField = new JTextField();
+        assignedToCombo = new JComboBox<>(new String[]{"User 1", "User 2", "User 3"});
+        taskStatusCombo = new JComboBox<>(new String[]{"Not Started", "In Progress", "Completed"});
+        addTaskButton = new JButton("Add Task");
+
+        inputPanel.add(new JLabel("Task Name:"));
+        inputPanel.add(taskNameField);
+        inputPanel.add(new JLabel("Assigned To:"));
+        inputPanel.add(assignedToCombo);
+        inputPanel.add(new JLabel("Status:"));
+        inputPanel.add(taskStatusCombo);
+        inputPanel.add(new JLabel("")); // Empty cell for alignment
+        inputPanel.add(addTaskButton);
+
+        TaskManagementPanel.add(inputPanel, BorderLayout.NORTH);
+    }
+
+    public void showTaskManagementPage() {
+        JFrame frame = new JFrame("Task Management");
+        frame.setContentPane(TaskManagementPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 400); // Adjust size as needed
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        // Initialize and show the task management page
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new VA_Tasks().showTaskManagementPage();
+            }
+        });
+    }
+}
