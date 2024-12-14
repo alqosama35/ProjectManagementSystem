@@ -5,15 +5,22 @@ import Enum.VacationStatus;
 import java.util.Date;
 
 public class VacationRequest {
+    private static int requestCounter = 0;
+    private int requestId;
     private Employee requester;
     private Date startDate;
     private Date endDate;
     private VacationStatus status = VacationStatus.Pending;
 
     public VacationRequest(Employee requester, Date startDate, Date endDate) {
+        this.requestId = ++requestCounter;
         this.requester = requester;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public int getRequestId() {
+        return requestId;
     }
 
     public Employee getRequester() {
