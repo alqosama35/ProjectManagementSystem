@@ -2,49 +2,48 @@ package Classes;
 import Enum.TaskStatus;
 
 public class Task {
+    private static int taskCounter = 0;
     private int taskId;
-    private String description;
-    private TaskStatus status; // Enum for status of Task
-    private Employee assignedEmployee;
+    private String descripiton;
+    private TaskStatus status;
+    private Employee assigendTo;
     private String deadline;
 
-    public Task(int taskId, String description, String deadline) {
-        this.taskId = taskId;
-        this.description = description;
+
+    public Task(int taskId, String descripiton, Employee assigendTo, String deadline) {
+        this.taskId = ++taskCounter;
+        this.descripiton = descripiton;
+        this.status = TaskStatus.PENDING;
+        this.assigendTo = assigendTo;
         this.deadline = deadline;
-        this.status = TaskStatus.PENDING; // Default status
     }
 
     public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public String getDescripiton() {
+        return descripiton;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescripiton(String descripiton) {
+        this.descripiton = descripiton;
     }
 
     public TaskStatus getStatus() {
         return status;
     }
 
-    public void updateStatus(TaskStatus status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-    public Employee getAssignedEmployee() {
-        return assignedEmployee;
+    public Employee getAssigendTo() {
+        return assigendTo;
     }
 
-    public void assignEmployee(Employee employee) {
-        this.assignedEmployee = employee;
+    public void setAssigendTo(Employee assigendTo) {
+        this.assigendTo = assigendTo;
     }
 
     public String getDeadline() {
@@ -53,5 +52,13 @@ public class Task {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public void updateStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public void assignEmployee(Employee employee){
+        this.assigendTo = employee;
     }
 }
