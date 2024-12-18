@@ -1,16 +1,22 @@
 package Classes;
-import java.util.Date;
 
-public class WorkHours {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+public class WorkHours implements Serializable {
     private Date entryTime;
     private Date exitTime;
-    private double duration;
+    private String duration;
 
-    public WorkHours(Date entryTime, Date exitTime, double duration) {
+    public WorkHours() {}
+
+    public WorkHours(Date entryTime, Date exitTime) {
         this.entryTime = entryTime;
         this.exitTime = exitTime;
-        this.duration = duration;
+        calculateDuration();
     }
+
 
     public Date getEntryTime() {
         return entryTime;
@@ -18,6 +24,7 @@ public class WorkHours {
 
     public void setEntryTime(Date entryTime) {
         this.entryTime = entryTime;
+        calculateDuration();
     }
 
     public Date getExitTime() {
@@ -26,13 +33,32 @@ public class WorkHours {
 
     public void setExitTime(Date exitTime) {
         this.exitTime = exitTime;
+        calculateDuration();
     }
 
-    public double getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
-        this.duration = duration;
+    private void calculateDuration() {
+        if (entryTime != null && exitTime != null) {
+            long durationInMillis = exitTime.getTime() - entryTime.getTime();
+            if (durationInMillis < 0) {
+                this.duration = "Invalid Times";
+            } else {
+                long hours = TimeUnit.MILLISECONDS.toHours(durationInMillis);
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(durationInMillis) % 60;
+                this.duration = hours + " hours " + minutes + " minutes";
+            }
+        } else {
+            this.duration = "Not Set";
+        }
+    }
+
+
+    public String toString() {
+        return "Entry Time: " + entryTime +
+                ", Exit Time: " + exitTime +
+                ", Duration: " + duration;
     }
 }
