@@ -36,5 +36,4 @@ public class Admin {
     public <Arraylist> Object getAllUser(){
         return (ArrayList<User>) fileManager.readFromFile("users", ArrayList.class);
     }
-
 }
