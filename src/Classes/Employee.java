@@ -110,4 +110,19 @@ public class Employee extends User {
         }
         return false;
     }
+
+    // toString method
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "userId=" + getUserId() +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", role=" + getRole() +
+                ", assignedTasks=" + assignedTasks +
+                ", workHours=" + workHours +
+                ", penalties=" + penalties +
+                ", vecationRequests=" + vecationRequests +
+                '}';
+    }
 }

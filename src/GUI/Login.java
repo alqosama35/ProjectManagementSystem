@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import Classes.Employee;
+import Classes.TeamLeader;
 import Enum.Role; // Import the Role enum
 
 import static Enum.Role.*;
@@ -50,7 +51,7 @@ public class Login {
                 switch (role) {
                     case EMP:
 
-//                        JOptionPane.showMessageDialog(null, "Employee login logic here.");
+
                         Employee emp = new Employee("john.newemail@example.com","password123");
                         if(emp.login()) {
                             JOptionPane.showMessageDialog(null, "Welcome " + emp.getName() + "!");
@@ -61,14 +62,27 @@ public class Login {
                         }
                         break;
                     case TEAM_LEADER:
-                        JOptionPane.showMessageDialog(null, "Team Leader login logic here.");
+                        TeamLeader user = new TeamLeader("john.newemail@example.com","password123");
+                        if(user.login()) {
+                            JOptionPane.showMessageDialog(null, "Welcome " + user.getName() + "!");
+                            JOptionPane.showMessageDialog(null, "Login successful!");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Login failed!");
+                        }
                         break;
                     case PM:
-                        JOptionPane.showMessageDialog(null, "Project Manager login logic here.");
+                        Classes.ProjectManager pm = new Classes.ProjectManager("john.newemail@example.com","password123");
+                        if(pm.login()) {
+                            JOptionPane.showMessageDialog(null, "Welcome " + pm.getName() + "!");
+                            JOptionPane.showMessageDialog(null, "Login successful!");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Login failed!");
+                        };
                         break;
                     case ADMIN:
-                        JOptionPane.showMessageDialog(null, "Admin login logic here.");
-                        break;
+                        JOptionPane.showMessageDialog(null, "login successful");
                     default:
                         JOptionPane.showMessageDialog(null, "Unknown role.");
                 }
