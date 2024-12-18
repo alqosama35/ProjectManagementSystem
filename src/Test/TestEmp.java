@@ -8,8 +8,8 @@ import Enum.Role;
 import static Enum.Role.*;
 
 public class TestEmp extends User {
-    public TestEmp(int userId, String name, String email, Role role, String password) {
-        super(userId, name, email, role, password);
+    public TestEmp( String name, String email, Role role, String password) {
+        super( name, email, role, password);
     }
 
     public TestEmp(String email, String password) {
