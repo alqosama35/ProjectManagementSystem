@@ -1,6 +1,7 @@
 package GUI;
-import Classes.FileHandler;
 import Classes.WorkHours;
+import Utils.FileManager;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -127,7 +128,7 @@ public class WorkingHours extends JFrame {
             }
         });
 
-
+        FileManager fileManager = new FileManager();
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String entryTimeText = entryTimeField.getText();
@@ -142,7 +143,7 @@ public class WorkingHours extends JFrame {
                     workHours.setExitTime(exitTime);
 
                     workHoursList.add(workHours);
-                    FileHandler.saveToFile(workHoursList, "work_hours.dat");
+                    fileManager.saveToFile(workHoursList, "work_hours.dat");
 
 
                     long durationInMillis = exitTime.getTime() - entryTime.getTime();
@@ -156,8 +157,6 @@ public class WorkingHours extends JFrame {
 
                 } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid Time Format! Use HH:mm.");
-                } catch (IOException ioEx) {
-                    JOptionPane.showMessageDialog(null, "Error saving data!");
                 }
             }
         });
