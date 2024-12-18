@@ -43,7 +43,7 @@ public class VA_Tasks {
         }
 
         // Set up the table model
-        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Task", "Assigned To", "Deadline"}, 0);
+        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Task", "Assigned To", "Status", "Deadline"}, 0);
         taskTable.setModel(tableModel);
 
         // Layout setup
@@ -67,7 +67,14 @@ public class VA_Tasks {
         if (tasks != null) {
             for (Task task : tasks) {
                 if (task != null && task.getDescription() != null) {
-                    tableModel.addRow(new Object[]{task.getDescription(), task.getAssignedTo(), task.getDeadline()});
+                    String assignedToName = "Unknown";
+                    for(Employee user : users) {
+                        if(user.getUserId() == task.getAssignedTo()) {
+                            assignedToName = user.getName();
+                        }
+                    }
+                    tableModel.addRow(new Object[]{task.getDescription(), assignedToName, task.getStatus(), task.getDeadline()});
+
                 }
             }
         }
@@ -134,7 +141,7 @@ public class VA_Tasks {
             fileManager.updateFile(tasksList, "Task");
 
             // Update table
-            tableModel.addRow(new Object[]{task.getDescription(), assignedTo, deadline});
+            tableModel.addRow(new Object[]{task.getDescription(), assignedTo, "PENDING", deadline});
             taskField.setText("");          // Clear task field
             assignComboBox.setSelectedIndex(0);
             deadlineField.setText("");      // Clear deadline field

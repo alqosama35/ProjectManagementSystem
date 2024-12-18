@@ -30,7 +30,7 @@ public class Penaltytest {
         System.out.println("\n----- Test Case 5: Setters and Getters -----");
         penalty1.setDescription("Updated description");
         penalty1.setAmount(120.0);
-        penalty1.setDate(java.time.LocalDate.parse("2024-09-30"));
+        penalty1.setDate("2024-09-30");
         System.out.println("Updated Penalty 1: ");
         System.out.println(penalty1.showPenalty());
     }

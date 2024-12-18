@@ -1,21 +1,24 @@
 package Classes;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Penalty {
     private static int idCounter = 0; // Static counter for unique IDs
     private int penaltyId;
     private String description;
     private double amount;
-    private LocalDate date;
+    private Date date;
+
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     // Constructor with default date (current date)
     public Penalty(String description, double amount) {
         this.penaltyId = ++idCounter;  // Increment and assign unique ID
         this.description = description;
         this.amount = amount;
-        this.date = LocalDate.now();
+        this.date = new Date(); // Set current date
     }
 
     // Constructor with custom date (string input)
@@ -24,10 +27,10 @@ public class Penalty {
         this.description = description;
         this.amount = amount;
         try {
-            this.date = LocalDate.parse(date); // Parse and set the date
-        } catch (DateTimeParseException e) {
+            this.date = DATE_FORMAT.parse(date); // Parse and set the date
+        } catch (ParseException e) {
             System.out.println("Invalid date format. Setting to today's date.");
-            this.date = LocalDate.now();
+            this.date = new Date(); // Set to current date in case of invalid format
         }
     }
 
@@ -52,12 +55,16 @@ public class Penalty {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getDate() {
+        return DATE_FORMAT.format(date);
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(String date) {
+        try {
+            this.date = DATE_FORMAT.parse(date);
+        } catch (ParseException e) {
+            System.out.println("Invalid date format. Date not updated.");
+        }
     }
 
     public static int getIdCounter() {
@@ -69,6 +76,6 @@ public class Penalty {
         return  "Penalty number: " + penaltyId + "\n" +
                 "Your penalty is: " + description + "\n" +
                 "The amount is: $" + amount + "\n" +
-                "Penalty's date: " + date;
+                "Penalty's date: " + getDate();
     }
 }
