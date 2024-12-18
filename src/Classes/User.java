@@ -20,6 +20,7 @@ public abstract class User {
         this.role = role;
         this.password = password;
     }
+    // for login
     public User(String email, String password) {
         this.email = email;
         this.password = password;
