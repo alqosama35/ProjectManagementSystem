@@ -3,6 +3,8 @@ package GUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Classes.Employee;
 import Enum.Role; // Import the Role enum
 
 import static Enum.Role.*;
@@ -48,7 +50,15 @@ public class Login {
                 switch (role) {
                     case EMP:
 
-                        JOptionPane.showMessageDialog(null, "Employee login logic here.");
+//                        JOptionPane.showMessageDialog(null, "Employee login logic here.");
+                        Employee emp = new Employee("john.newemail@example.com","password123");
+                        if(emp.login()) {
+                            JOptionPane.showMessageDialog(null, "Welcome " + emp.getName() + "!");
+                            JOptionPane.showMessageDialog(null, "Login successful!");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Login failed!");
+                        }
                         break;
                     case TEAM_LEADER:
                         JOptionPane.showMessageDialog(null, "Team Leader login logic here.");

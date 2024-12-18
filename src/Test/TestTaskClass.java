@@ -1,30 +1,29 @@
-package Classes;
-
+package Test;
+import Classes.Employee;
 import Enum.TaskStatus;
 
-import static Enum.TaskStatus.PENDING;
-
-public class Task {
-    private static int idCounter = 0; // Static counter for taskId
+public class TestTaskClass {
     private int taskId;
     private String description;
     private TaskStatus status; // Assuming TaskStatus is an enum or class
-    private int assignedTo; // Assuming Employee is a defined class
+    private Employee assignedTo; // Assuming Employee is a defined class
     private String deadline;
 
-
     // Constructor
-    public Task(String description, int assignedTo, String deadline) {
-        this.taskId = ++idCounter; // Increment the counter and assign to taskId
+    public TestTaskClass(int taskId, String description, TaskStatus status, String deadline) {
+        this.taskId = taskId;
         this.description = description;
-        this.status = PENDING;
+        this.status = status;
         this.deadline = deadline;
-        this.assignedTo = assignedTo; // Assign the employee ID to assignedTo
     }
 
     // Getters and Setters
     public int getTaskId() {
         return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     public String getDescription() {
@@ -43,11 +42,11 @@ public class Task {
         this.status = status;
     }
 
-    public int getAssignedTo() {
+    public Employee getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(int assignedTo) {
+    public void setAssignedTo(Employee assignedTo) {
         this.assignedTo = assignedTo;
     }
 
@@ -64,6 +63,10 @@ public class Task {
         this.status = status;
     }
 
+    // Method to assign an employee
+    public void assignEmployee(Employee employee) {
+        this.assignedTo = employee;
+    }
 
     // Optional: Override toString for better display
     @Override
@@ -72,7 +75,7 @@ public class Task {
                 "taskId=" + taskId +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", assignedTo=" + (assignedTo != -1 ? assignedTo : "None") +
+                ", assignedTo=" + (assignedTo != null ? assignedTo.getName() : "None") +
                 ", deadline='" + deadline + '\'' +
                 '}';
     }

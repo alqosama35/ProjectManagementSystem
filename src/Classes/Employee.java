@@ -1,59 +1,113 @@
 package Classes;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import Utils.FileManager;
 import Enum.Role;
-import Enum.TaskStatus;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import static Enum.Role.*;
 
 public class Employee extends User {
     private List<Task> assignedTasks;
-    private int workHours;
-//    private List<Penalty> penalties;
+    private List<WorkHours> workHours;
+    private List<Penalty> penalties;
+    private List<VacationRequest> vecationRequests;
 
-
-    public Employee(int userId, String name, String email, String password) {
-        super(userId, name, email, Role.valueOf("Employee"), password);
+    // Constructor for new Employee
+    public Employee(String name, String email, Role role, String password) {
+        super(name, email, role, password);
         this.assignedTasks = new ArrayList<>();
-//        this.penalties = new ArrayList<>();
-        this.workHours = 0;
+        this.workHours = new ArrayList<>();
+        this.penalties = new ArrayList<>();
+        this.vecationRequests = new ArrayList<>();
     }
 
-    // Methods
-    public void enterWorkTime(Date entryTime, Date exitTime) {
-        // Calculate work hours and update
-        long duration = (exitTime.getTime() - entryTime.getTime()) / (1000 * 60 * 60); // in hours
-        this.workHours += duration;
+    // Constructor for login
+    public Employee(String email, String password) {
+        super(email, password);
     }
 
-//    public void requestVacation(VacationRequest request) {
-//        // Logic for requesting vacation
-//    }
+    // Setters
+    public void setAssignedTasks(List<Task> assignedTasks) {
+        this.assignedTasks = assignedTasks;
+    }
 
-    public void viewAssignedTasks() {
-        for (Task task : assignedTasks) {
-            System.out.println(task);
+    public void setWorkHours(List<WorkHours> workHours) {
+        this.workHours = workHours;
+    }
+
+    public void setPenalties(List<Penalty> penalties) {
+        this.penalties = penalties;
+    }
+
+    public void setVecationRequests(List<VacationRequest> vecationRequests) {
+        this.vecationRequests = vecationRequests;
+    }
+
+    // Getters
+    public List<Task> getAssignedTasks() {
+        return assignedTasks;
+    }
+
+    public List<WorkHours> getWorkHours() {
+        return workHours;
+    }
+
+    public List<Penalty> getPenalties() {
+        return penalties;
+    }
+
+    public List<VacationRequest> getVecationRequests() {
+        return vecationRequests;
+    }
+
+    // Methods to add items to lists
+    public void addAssignedTask(Task task) {
+        if (assignedTasks == null) {
+            assignedTasks = new ArrayList<>();
         }
-    }
-
-    public void markTaskComplete(Task task) {
-        if (assignedTasks.contains(task)) {
-            task.updateStatus(TaskStatus.COMPLETED);
-        }
-    }
-
-//    public void viewPenalties() {
-//        for (Penalty penalty : penalties) {
-//            System.out.println(penalty);
-//        }
-//    }
-
-    public void addTask(Task task) {
         assignedTasks.add(task);
     }
 
-    @Override
+    public void addWorkHour(WorkHours workHour) {
+        if (workHours == null) {
+            workHours = new ArrayList<>();
+        }
+        workHours.add(workHour);
+    }
+
+    public void addPenalty(Penalty penalty) {
+        if (penalties == null) {
+            penalties = new ArrayList<>();
+        }
+        penalties.add(penalty);
+    }
+
+    public void addVacationRequest(VacationRequest vacationRequest) {
+        if (vecationRequests == null) {
+            vecationRequests = new ArrayList<>();
+        }
+        vecationRequests.add(vacationRequest);
+    }
+
+    // Login method
     public boolean login() {
+        FileManager fileManager = new FileManager();
+        User[] users = (User[]) fileManager.readFromFile("User", Employee[].class);
+        for (User user : users) {
+            if (user.getEmail().equals(super.getEmail())
+                    && user.getPassword().equals(super.getPassword())
+                    && user.getRole() == EMP) {
+                // Initialize the object with the found user's details
+                this.setUserId(user.getUserId());
+                this.setName(user.getName());
+                this.setEmail(user.getEmail());
+                this.setRole(user.getRole());
+                this.setPassword(user.getPassword());
+                return true;
+            }
+        }
         return false;
     }
 }

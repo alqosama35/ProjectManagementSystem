@@ -51,18 +51,21 @@ public class FileManager implements FileHandler {
     }
 
     public <T> ArrayList<T> readArrayFromFile(String filename, Class<T[]> clazz) {
-        try {
-            Gson gson = new Gson();
-            FileReader reader = new FileReader(DATA_DIR + filename + ".json");
-            T[] array = gson.fromJson(reader, clazz);
-            reader.close();
+    try {
+        Gson gson = new Gson();
+        FileReader reader = new FileReader(DATA_DIR + filename + ".json");
+        T[] array = gson.fromJson(reader, clazz);
+        reader.close();
 
+        if (array != null) {
             return new ArrayList<>(Arrays.asList(array));
-        } catch (IOException e) {
-            System.err.println("Error reading data from file: " + e.getMessage());
-            return null;
+        } else {
+            return new ArrayList<>();
         }
+    } catch (IOException e) {
+        return new ArrayList<>();
     }
+}
 
     public void updateFile(Object data, String filename) {
         deleteFromFile(filename);
