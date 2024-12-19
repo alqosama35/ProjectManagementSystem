@@ -4,10 +4,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Classes.Employee;
-import Classes.TeamLeader;
+import Classes.*;
 import Classes.ProjectManager;
-import Classes.User;
 import Enum.Role;
 import Utils.FileManager;
 
@@ -83,8 +81,13 @@ public class Login {
                         }
                         break;
                     case ADMIN:
-                        JOptionPane.showMessageDialog(null, "Login successful");
-                        openAdminPage();
+                        Admin admin = new Admin(email, password);
+                        if (admin.login()) {
+                            JOptionPane.showMessageDialog(null, "Welcome " + admin.getName() + "!");
+                            openAdminPage(admin);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Login failed!");
+                        }
                         break;
                     default:
                         JOptionPane.showMessageDialog(null, "Unknown role.");
@@ -118,7 +121,7 @@ public class Login {
         // Implement the method to open the Project Manager page
     }
 
-    private void openAdminPage() {
+    private void openAdminPage(Admin admin) {
         // Implement the method to open the Admin page
     }
 
