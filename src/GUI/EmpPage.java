@@ -44,7 +44,7 @@ public class EmpPage {
                 ArrayList<Employee> users = fileManager.readArrayFromFile("User", Employee[].class);
                 for (Employee employee : users) {
                     if (employee.getUserId() == emp.getUserId()) {
-                        penalties = employee.getPenalties();
+                        penalties = (ArrayList) employee.getPenalties();
                     }
                 }
                 new PenaltyViewer(penalties);
