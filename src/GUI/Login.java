@@ -9,8 +9,6 @@ import Classes.ProjectManager;
 import Enum.Role;
 import Utils.FileManager;
 
-import static Enum.Role.*;
-
 public class Login {
     private JTextField textField1;
     private JPasswordField passwordField1;
@@ -119,6 +117,13 @@ public class Login {
 
     private void openPMPage(ProjectManager pm) {
         // Implement the method to open the Project Manager page
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ProjectManagerPage teamLeaderPage = new ProjectManagerPage(pm);
+                teamLeaderPage.showGUI();
+            }
+        });
     }
 
     private void openAdminPage(Admin admin) {

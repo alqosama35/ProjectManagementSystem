@@ -1,32 +1,33 @@
 package Classes;
 
+import java.util.ArrayList;
 import java.util.List;
-import Enum.TaskStatus;
+import Utils.*;
 
 public class Project {
-
-    private String projectId;
+    private int projectId;
     private String projectName;
-    private List<Integer> teamMembers;
+    private List<Integer> tasks;
+    private List<User> teamMembers;
     private int PMId;
-    private List<Task> tasks;
     private double completionPercentage;
 
-    public Project(int projectId, String projectName, List<Integer> teamMembers, Integer PMId, List<Task> tasks, double completionPercentage) {
-        this.projectId = String.valueOf(projectId);
+    public Project(int projectId, String projectName, List<Integer> tasks, int PMId, List<User> teamMembers, double completionPercentage) {
+        this.projectId = projectId;
         this.projectName = projectName;
-        this.teamMembers = teamMembers;
-        this.PMId = PMId;
         this.tasks = tasks;
+        this.PMId = PMId;
+        this.teamMembers = teamMembers;
         this.completionPercentage = completionPercentage;
     }
 
-    public String getProjectId() {
+    // Getters and Setters
+    public int getProjectId() {
         return projectId;
     }
 
     public void setProjectId(int projectId) {
-        this.projectId = String.valueOf(projectId);
+        this.projectId = projectId;
     }
 
     public String getProjectName() {
@@ -37,11 +38,27 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public List<Integer> getTeamMembers() {
+    public ArrayList<Task> getTasks() {
+        FileManager fileManager = new FileManager();
+        Task[] allTasks = (Task[]) fileManager.readFromFile("Task",Task[].class);
+        ArrayList<Task> tasks = new ArrayList<>();
+        for (Task task : allTasks) {
+            if (this.tasks.contains(task.getTaskId())) {
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    public void setTasks(List<Integer> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<User> getTeamMembers() {
         return teamMembers;
     }
 
-    public void setTeamMembers(List<Integer> teamMembers) {
+    public void setTeamMembers(List<User> teamMembers) {
         this.teamMembers = teamMembers;
     }
 
@@ -53,37 +70,17 @@ public class Project {
         this.PMId = PMId;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public double getCompletionPercentage() {
+        return completionPercentage;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setCompletionPercentage(double completionPercentage) {
+        this.completionPercentage = completionPercentage;
     }
 
+    // Method to calculate completion percentage
     public double calculateCompletionPercentage() {
-        if (tasks == null || tasks.isEmpty()) {
-            return 0;
-        }
-        long completedTasks = tasks.stream()
-                .filter(task -> task.getStatus() == TaskStatus.COMPLETED)
-                .count();
-        return (double) completedTasks / tasks.size() * 100;
-    }
-
-    public void addTask(Task task) {
-        if (tasks != null) {
-            tasks.add(task);
-        }
-    }
-
-    public void removeTask(Task task) {
-        if (tasks != null) {
-            tasks.remove(task);
-        }
-    }
-
-    public List<Task> getAllTasks() {
-        return tasks;
+        // Implement the logic to calculate completion percentage
+        return completionPercentage;
     }
 }

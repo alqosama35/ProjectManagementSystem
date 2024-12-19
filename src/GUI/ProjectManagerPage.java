@@ -6,16 +6,19 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import Classes.ProjectManager;
 
-public class ProjectManager {
+public class ProjectManagerPage {
 
     private JFrame frame;
     private List<Project> projects;
     private DefaultListModel<String> projectListModel;
     private JList<String> projectList;
+    private static ProjectManager pm;
 
-    public ProjectManager(List<Project> projects) {
-        this.projects = projects;
+    public ProjectManagerPage(ProjectManager pm) {
+        this.pm = pm;
+        this.projects = pm.getManagedProjects();
         initializeGUI();
     }
 
@@ -76,20 +79,21 @@ public class ProjectManager {
         int result = JOptionPane.showConfirmDialog(frame, panel, "Add New Project", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             String name = nameField.getText().trim();
-            if (name != null && !name.isEmpty()) {
-                Project newProject = new Project(
-                        projects.size() + 1,
-                        name,
-                        new ArrayList<>(),
-                        0,
-                        new ArrayList<>(),
-                        completionPercentage()
-                );
-                projects.add(newProject);
-                updateProjectList();
-            } else {
+            if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Project Name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            Project newProject = new Project(
+                    projects.size() + 1,
+                    name,
+                    new ArrayList<>(),
+                    0,
+                    new ArrayList<>(),
+                    completionPercentage()
+            );
+            projects.add(newProject);
+            updateProjectList();
         }
     }
 
@@ -107,14 +111,10 @@ public class ProjectManager {
         int selectedIndex = projectList.getSelectedIndex();
         if (selectedIndex != -1) {
             Project selectedProject = projects.get(selectedIndex);
-
-            // Generate random completion percentage for details
-            double randomCompletion = completionPercentage();
-
             JOptionPane.showMessageDialog(frame,
                     "Project ID: " + selectedProject.getProjectId() +
                             "\nProject Name: " + selectedProject.getProjectName() +
-                            "\nCompletion Percentage: " + String.format("%.2f%%", randomCompletion),
+                            "\nCompletion Percentage: " + String.format("%.2f%%", selectedProject.calculateCompletionPercentage()),
                     "Project Details",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -142,7 +142,7 @@ public class ProjectManager {
             report.append("Project ID: ").append(project.getProjectId()).append("\n");
             report.append("Project: ").append(project.getProjectName()).append("\n");
             report.append("Team Members: ").append(project.getTeamMembers()).append("\n");
-            report.append("Completion Percentage: ").append(String.format("%.2f%%", completionPercentage())).append("\n");
+            report.append("Completion Percentage: ").append(String.format("%.2f%%", project.calculateCompletionPercentage())).append("\n");
             report.append("-------------------------------\n");
         }
         reportArea.setText(report.toString());
@@ -157,8 +157,11 @@ public class ProjectManager {
     }
 
     public static void main(String[] args) {
-        List<Project> projects = createDummyProjects();
-        SwingUtilities.invokeLater(() -> new ProjectManager(projects));
+        SwingUtilities.invokeLater(() -> new ProjectManagerPage(pm));
+    }
+
+    public void showGUI() {
+        SwingUtilities.invokeLater(() -> new ProjectManagerPage(pm));
     }
 
     private static List<Project> createDummyProjects() {

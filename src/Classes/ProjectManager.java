@@ -9,10 +9,10 @@ import java.util.List;
 import static Enum.Role.PM;
 
 public class ProjectManager extends User {
-    private List<Project> managedProjects; // Instance field for managed projects
+    private List<Integer> managedProjects; // Instance field for managed projects
 
     // Constructor for new ProjectManager
-    public ProjectManager(String name, String email, Role role, String password, List<Project> managedProjects) {
+    public ProjectManager(String name, String email, Role role, String password, List<Integer> managedProjects) {
         super(name, email, role, password);
         this.managedProjects = managedProjects != null ? managedProjects : new ArrayList<>();
     }
@@ -30,7 +30,7 @@ public class ProjectManager extends User {
             return;
         }
         System.out.println("Team Report:");
-        for (Project project : managedProjects) {
+        for (Project project : this.getManagedProjects()) {
             System.out.println("Project: " + project.getProjectName());
             System.out.println("Team Members: " + project.getTeamMembers());
             System.out.println("Project Manager ID: " + project.getPMId());
@@ -59,7 +59,7 @@ public class ProjectManager extends User {
     // Login method
     public boolean login() {
         FileManager fileManager = new FileManager();
-        User[] users = (User[]) fileManager.readFromFile("User", User[].class);
+        ProjectManager[] users = (ProjectManager[]) fileManager.readFromFile("User", ProjectManager[].class);
 
         if (users != null) {
             for (User user : users) {
@@ -79,7 +79,7 @@ public class ProjectManager extends User {
                         this.managedProjects = new ArrayList<>();
                         for (Project project : allProjects) {
                             if (project.getPMId() == this.getUserId()) {
-                                this.managedProjects.add(project);
+                                this.managedProjects.add(project.getProjectId());
                             }
                         }
                     }
@@ -91,11 +91,23 @@ public class ProjectManager extends User {
     }
 
     // Getters and Setters
-    public List<Project> getManagedProjects() {
-        return managedProjects;
+public List<Project> getManagedProjects() {
+    FileManager fileManager = new FileManager();
+    Project[] projects = (Project[]) fileManager.readFromFile("Project", Project[].class);
+    ArrayList<Project> managedProjects = new ArrayList<>();
+    for (Project project : projects) {
+        if (project.getPMId() == this.getUserId()) {
+            managedProjects.add(project);
+        }
     }
+    return managedProjects;
+}
 
     public void setManagedProjects(List<Project> managedProjects) {
-        this.managedProjects = managedProjects;
+        ArrayList<Integer> managedProjectIds = new ArrayList<>();
+        for (Project project : managedProjects) {
+            managedProjectIds.add(project.getProjectId());
+        }
+        this.managedProjects = managedProjectIds;
     }
 }

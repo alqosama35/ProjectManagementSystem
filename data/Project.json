@@ -1,0 +1,97 @@
+[
+  {
+    "projectId": 1,
+    "projectName": "Project Alpha",
+    "teamLeadId": 2,
+    "managerId": 3,
+    "tasks": [
+      101,
+      102
+    ],
+    "progress": 75
+  },
+  {
+    "projectId": 2,
+    "projectName": "Project Beta",
+    "teamLeadId": 5,
+    "managerId": 6,
+    "tasks": [
+      201,
+      202,
+      203
+    ],
+    "progress": 60
+  },
+  {
+    "projectId": 3,
+    "projectName": "Project Gamma",
+    "teamLeadId": 8,
+    "managerId": 9,
+    "tasks": [
+      301,
+      302
+    ],
+    "progress": 45
+  },
+  {
+    "projectId": 4,
+    "projectName": "Project Delta",
+    "teamLeadId": 12,
+    "managerId": 13,
+    "tasks": [
+      401,
+      402,
+      403,
+      404
+    ],
+    "progress": 85
+  },
+  {
+    "projectId": 5,
+    "projectName": "Project Epsilon",
+    "teamLeadId": 15,
+    "managerId": 16,
+    "tasks": [
+      501
+    ],
+    "progress": 30
+  },
+  {
+    "projectId": 6,
+    "projectName": "Project Zeta",
+    "teamLeadId": 20,
+    "managerId": 21,
+    "tasks": [
+      601,
+      602,
+      603
+    ],
+    "progress": 90
+  },
+  {
+    "projectId": 7,
+    "projectName": "Project Eta",
+    "teamLeadId": 25,
+    "managerId": 26,
+    "tasks": [
+      701,
+      702
+    ],
+    "progress": 55
+  },
+  {
+    "projectId": 8,
+    "projectName": "Project Theta",
+    "teamLeadId": 30,
+    "managerId": 31,
+    "tasks": [
+      801,
+      802,
+      803,
+      804,
+      805
+    ],
+    "progress": 70
+  }
+]
+
