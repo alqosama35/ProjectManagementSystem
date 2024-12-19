@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 
 import Classes.Employee;
 import Classes.TeamLeader;
-import Enum.Role; // Import the Role enum
+import Classes.ProjectManager;
+import Enum.Role;
 
 import static Enum.Role.*;
-
 
 public class Login {
     private JTextField textField1;
@@ -50,44 +50,70 @@ public class Login {
                 // Perform login logic based on the role
                 switch (role) {
                     case EMP:
-
-
-                        Employee emp = new Employee("john.newemail@example.com","password123");
-                        if(emp.login()) {
+                        Employee emp = new Employee(email, password);
+                        if (emp.login()) {
                             JOptionPane.showMessageDialog(null, "Welcome " + emp.getName() + "!");
-                            JOptionPane.showMessageDialog(null, "Login successful!");
-                        }
-                        else {
+                            openEmpPage(emp);
+                        } else {
                             JOptionPane.showMessageDialog(null, "Login failed!");
                         }
                         break;
                     case TEAM_LEADER:
-                        TeamLeader user = new TeamLeader("john.newemail@example.com","password123");
-                        if(user.login()) {
-                            JOptionPane.showMessageDialog(null, "Welcome " + user.getName() + "!");
-                            JOptionPane.showMessageDialog(null, "Login successful!");
-                        }
-                        else {
+                        TeamLeader teamLeader = new TeamLeader(email, password);
+                        if (teamLeader.login()) {
+                            JOptionPane.showMessageDialog(null, "Welcome " + teamLeader.getName() + "!");
+                            openTeamLeaderPage(teamLeader);
+                        } else {
                             JOptionPane.showMessageDialog(null, "Login failed!");
                         }
                         break;
                     case PM:
-                        Classes.ProjectManager pm = new Classes.ProjectManager("john.newemail@example.com","password123");
-                        if(pm.login()) {
+                        ProjectManager pm = new ProjectManager(email, password);
+                        if (pm.login()) {
                             JOptionPane.showMessageDialog(null, "Welcome " + pm.getName() + "!");
-                            JOptionPane.showMessageDialog(null, "Login successful!");
-                        }
-                        else {
+                            openPMPage(pm);
+                        } else {
                             JOptionPane.showMessageDialog(null, "Login failed!");
-                        };
+                        }
                         break;
                     case ADMIN:
-                        JOptionPane.showMessageDialog(null, "login successful");
+                        JOptionPane.showMessageDialog(null, "Login successful");
+                        openAdminPage();
+                        break;
                     default:
                         JOptionPane.showMessageDialog(null, "Unknown role.");
                 }
             }
         });
+    }
+
+    private void openEmpPage(Employee emp) {
+        JFrame frame = new JFrame("Employee Page");
+        EmpPage empPage = new EmpPage(emp);
+        frame.setContentPane(empPage.createPanel());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(600, 200);
+        frame.setVisible(true);
+    }
+
+    private void openTeamLeaderPage(TeamLeader teamLeader) {
+        // Implement the method to open the Team Leader page
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                TeamLeaderPage teamLeaderPage = new TeamLeaderPage(teamLeader);
+                teamLeaderPage.showGUI();
+            }
+        });
+    }
+
+    private void openPMPage(ProjectManager pm) {
+        // Implement the method to open the Project Manager page
+    }
+
+    private void openAdminPage() {
+        // Implement the method to open the Admin page
     }
 
     public void showLoginDialog() {

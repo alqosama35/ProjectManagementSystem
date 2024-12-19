@@ -1,40 +1,36 @@
 package GUI;
 
+import Classes.TeamLeader;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TeamLeaderPage {
 
     private JButton assignAndViewTasksButton;
     private JButton manageEmpButton;
+    private TeamLeader teamLeader;
 
-    public TeamLeaderPage() {
+    public TeamLeaderPage(TeamLeader teamLeader) {
+        this.teamLeader = teamLeader;
+
         // Create the buttons
         assignAndViewTasksButton = new JButton("Assign and View Tasks");
         manageEmpButton = new JButton("Manage Employees");
 
         // Set up button actions
-        assignAndViewTasksButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Action for Assign and View Tasks button
-                JOptionPane.showMessageDialog(null, "Assign and View Tasks functionality is under development.");
-            }
+        assignAndViewTasksButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> {
+                VA_Tasks assignAndViewTasks = new VA_Tasks();
+                assignAndViewTasks.showGUI();
+            });
         });
 
-        manageEmpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Action for Manage Employees button
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-//                        ManageEmp manageEmp = new ManageEmp();
-//                        manageEmp.showGUI();
-                    }
-                });
+        manageEmpButton.addActionListener(e -> {
+            if (teamLeader.login()) {
+                SwingUtilities.invokeLater(() -> new ManageEmp(teamLeader));
+            } else {
+                JOptionPane.showMessageDialog(null, "Login failed. Please check credentials.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -51,18 +47,22 @@ public class TeamLeaderPage {
         return panel;
     }
 
-    public static void main(String[] args) {
+    public void showGUI() {
         // Create the frame for Team Leader Page
         JFrame frame = new JFrame("Team Leader Page");
-        TeamLeaderPage teamLeaderPage = new TeamLeaderPage();
 
         // Set the content of the frame to the panel created in TeamLeaderPage
-        frame.setContentPane(teamLeaderPage.createPanel());
+        frame.setContentPane(createPanel());
 
         // Frame settings
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(600, 200);
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        TeamLeader teamLeader = new TeamLeader("jane.smith@example.com", "password456");
+        SwingUtilities.invokeLater(() -> new TeamLeaderPage(teamLeader).showGUI());
     }
 }
