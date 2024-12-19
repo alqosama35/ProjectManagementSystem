@@ -10,13 +10,14 @@ public class VacationRequest {
     private Employee requester;
     private Date startDate;
     private Date endDate;
-    private VacationStatus status = VacationStatus.Pending;
+    private VacationStatus status;
 
     public VacationRequest(Employee requester, Date startDate, Date endDate) {
         this.requestId = ++requestCounter;
         this.requester = requester;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.status = VacationStatus.Pending;
     }
 
     public int getRequestId() {

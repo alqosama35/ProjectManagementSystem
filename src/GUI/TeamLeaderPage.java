@@ -31,8 +31,8 @@ public class TeamLeaderPage {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        ManageEmp manageEmp = new ManageEmp();
-                        manageEmp.showGUI();
+//                        ManageEmp manageEmp = new ManageEmp();
+//                        manageEmp.showGUI();
                     }
                 });
             }

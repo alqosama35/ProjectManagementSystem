@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static Enum.Role.*;
 
 public class Employee extends User {
-    private List<Task> assignedTasks;
+    private List<Integer> assignedTasks;
     private List<WorkHours> workHours;
     private List<Penalty> penalties;
     private List<VacationRequest> vecationRequests;
@@ -29,7 +29,7 @@ public class Employee extends User {
     }
 
     // Setters
-    public void setAssignedTasks(List<Task> assignedTasks) {
+    public void setAssignedTasks(List<Integer> assignedTasks) {
         this.assignedTasks = assignedTasks;
     }
 
@@ -46,7 +46,7 @@ public class Employee extends User {
     }
 
     // Getters
-    public List<Task> getAssignedTasks() {
+    public List<Integer> getAssignedTasks() {
         return assignedTasks;
     }
 
@@ -58,7 +58,7 @@ public class Employee extends User {
         return penalties;
     }
 
-    public List<VacationRequest> getVecationRequests() {
+    public List<VacationRequest> getVacationRequests() {
         return vecationRequests;
     }
 
@@ -67,7 +67,7 @@ public class Employee extends User {
         if (assignedTasks == null) {
             assignedTasks = new ArrayList<>();
         }
-        assignedTasks.add(task);
+        assignedTasks.add(task.getTaskId());
     }
 
     public void addWorkHour(WorkHours workHour) {

@@ -36,12 +36,12 @@ public class TeamLeader extends User {
         fileManager.updateFile(users, "User");
     }
 
-    public void manageVecation(int userId, int requestId, VacationStatus status) {
+    public void manageVacation(int userId, int requestId, VacationStatus status) {
         FileManager fileManager = new FileManager();
         ArrayList<Employee> users = fileManager.readArrayFromFile("User", Employee[].class);
         for(Employee employee : users) {
             if(employee.getUserId() == userId) {
-                List<VacationRequest> requests = employee.getVecationRequests();
+                List<VacationRequest> requests = employee.getVacationRequests();
                 for(VacationRequest request : requests) {
                     if(request.getRequestId() == requestId) {
                         request.setStatus(status);
@@ -70,6 +70,40 @@ public class TeamLeader extends User {
         // Logic to generate report for a specific employee
         FileManager fileManager = new FileManager();
         fileManager.saveToFile(employee.toString(), "EmployeeReport");
+    }
+
+    public Employee getEmployeeById(int userId) {
+        FileManager fileManager = new FileManager();
+        Employee[] users = (Employee[]) fileManager.readFromFile("User", Employee[].class);
+        for (Employee user : users) {
+            if (user.getUserId() == userId) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public List<Employee> getAllEmployees()
+    {
+        FileManager fileManager = new FileManager();
+        ArrayList<Employee> employees = fileManager.readArrayFromFile("User", Employee[].class);
+        if (employees != null) {
+            return employees;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public Employee getEmployeeByName(String name) {
+        FileManager fileManager = new FileManager();
+        Employee[] users = (Employee[]) fileManager.readFromFile("User", Employee[].class);
+        for (Employee user : users) {
+            if (user.getName().equals(name)) {
+                return user;
+            }
+        }
+        return null;
     }
 
 
