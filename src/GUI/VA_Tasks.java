@@ -19,10 +19,16 @@ public class VA_Tasks {
     private JComboBox<String> assignComboBox;
     private JTextField deadlineField;
     private JButton addButton;
+    private TeamLeader teamLeader;
 
-    public VA_Tasks() {
+    public VA_Tasks(TeamLeader teamLeader) {
+        if (teamLeader == null) {
+            throw new IllegalArgumentException("TeamLeader object cannot be null");
+        }
+        this.teamLeader = teamLeader;
+
         // Initialize components
-        mainPanel = new JPanel();
+        mainPanel = new JPanel(new BorderLayout());
         taskTable = new JTable();
         taskField = new JTextField();
         assignComboBox = new JComboBox<>();
@@ -32,7 +38,7 @@ public class VA_Tasks {
         // Set up FileManager
         FileManager fileManager = new FileManager();
 
-        // Initialize users and handle potential null values
+        // Load employees and populate combo box
         Employee[] users = (Employee[]) fileManager.readFromFile("User", Employee[].class);
         if (users != null) {
             for (Employee user : users) {
@@ -45,9 +51,6 @@ public class VA_Tasks {
         // Set up the table model
         DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Task", "Assigned To", "Status", "Deadline"}, 0);
         taskTable.setModel(tableModel);
-
-        // Layout setup
-        mainPanel.setLayout(new BorderLayout());
 
         // Input panel setup
         JPanel inputPanel = new JPanel(new GridLayout(3, 2));
@@ -68,13 +71,15 @@ public class VA_Tasks {
             for (Task task : tasks) {
                 if (task != null && task.getDescription() != null) {
                     String assignedToName = "Unknown";
-                    for(Employee user : users) {
-                        if(user.getUserId() == task.getAssignedTo()) {
-                            assignedToName = user.getName();
+                    if (users != null) {
+                        for (Employee user : users) {
+                            if (user.getUserId() == task.getAssignedTo()) {
+                                assignedToName = user.getName();
+                                break;
+                            }
                         }
                     }
                     tableModel.addRow(new Object[]{task.getDescription(), assignedToName, task.getStatus(), task.getDeadline()});
-
                 }
             }
         }
@@ -89,7 +94,6 @@ public class VA_Tasks {
             String taskDescription = taskField.getText().trim();
             String assignedTo = (String) assignComboBox.getSelectedItem();
             String deadline = deadlineField.getText().trim();
-            int assignedToId = -1;
 
             // Validate input
             if (taskDescription.isEmpty() || deadline.isEmpty() || assignedTo == null) {
@@ -97,7 +101,7 @@ public class VA_Tasks {
                 return;
             }
 
-            // Find the user ID based on the selected name
+            int assignedToId = -1;
             if (users != null) {
                 for (Employee user : users) {
                     if (user.getName().equals(assignedTo)) {
@@ -114,23 +118,7 @@ public class VA_Tasks {
 
             // Create and assign the task
             Task task = new Task(taskDescription, assignedToId, deadline);
-            TeamLeader teamLeader = new TeamLeader("John Doe", "john.doe@example.com", "password123");
-
-            boolean taskAssigned = false;
-            if (users != null) {
-                for (Employee employee : users) {
-                    if (employee.getUserId() == assignedToId) {
-                        teamLeader.assignTask(task, employee);
-                        taskAssigned = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!taskAssigned) {
-                JOptionPane.showMessageDialog(mainPanel, "Failed to assign task to the user.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            teamLeader.assignTask(task, null); // Null can be replaced with actual logic for assigning
 
             // Update Task.json file
             ArrayList<Task> tasksList = fileManager.readArrayFromFile("Task", Task[].class);
@@ -142,9 +130,9 @@ public class VA_Tasks {
 
             // Update table
             tableModel.addRow(new Object[]{task.getDescription(), assignedTo, "PENDING", deadline});
-            taskField.setText("");          // Clear task field
+            taskField.setText("");
             assignComboBox.setSelectedIndex(0);
-            deadlineField.setText("");      // Clear deadline field
+            deadlineField.setText("");
 
             JOptionPane.showMessageDialog(mainPanel, "Task added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         });
@@ -154,10 +142,10 @@ public class VA_Tasks {
         return mainPanel;
     }
 
-    public void showGUI(){
+    public void showGUI() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Task Manager");
-            frame.setContentPane(new VA_Tasks().getMainPanel());
+            frame.setContentPane(this.getMainPanel());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setLocationRelativeTo(null);
@@ -167,12 +155,8 @@ public class VA_Tasks {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Task Manager");
-            frame.setContentPane(new VA_Tasks().getMainPanel());
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
+            TeamLeader dummyLeader = new TeamLeader("Dummy", "dummy@example.com", "password");
+            new VA_Tasks(dummyLeader).showGUI();
         });
     }
 }

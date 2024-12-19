@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import Classes.Employee;
 import Classes.TeamLeader;
 import Classes.ProjectManager;
+import Classes.User;
 import Enum.Role;
+import Utils.FileManager;
 
 import static Enum.Role.*;
 
@@ -16,11 +18,6 @@ public class Login {
     private JPasswordField passwordField1;
     private JPanel LoginPanel;
     private JButton loginBtn;
-    private JRadioButton adminRadioButton;
-    private JRadioButton teamLeaderRadioButton;
-    private JRadioButton PMRadioButton;
-    private JRadioButton empRadioButton;
-    private JPanel Role;
     private JPanel RolePanel;
 
     public Login() {
@@ -32,14 +29,23 @@ public class Login {
                 Role role = null;
 
                 // Determine the selected role
-                if (adminRadioButton.isSelected()) {
-                    role = ADMIN;
-                } else if (teamLeaderRadioButton.isSelected()) {
-                    role = TEAM_LEADER;
-                } else if (PMRadioButton.isSelected()) {
-                    role = PM;
-                } else if (empRadioButton.isSelected()) {
-                    role = EMP;
+//                if (adminRadioButton.isSelected()) {
+//                    role = ADMIN;
+//                } else if (teamLeaderRadioButton.isSelected()) {
+//                    role = TEAM_LEADER;
+//                } else if (PMRadioButton.isSelected()) {
+//                    role = PM;
+//                } else if (empRadioButton.isSelected()) {
+//                    role = EMP;
+//                }
+                //get the user Role
+                FileManager fileManager = new FileManager();
+                Employee[] users = (Employee[]) fileManager.readFromFile("User", Employee[].class);
+                for (User user : users) {
+                    if (user.getEmail().equals(email)) {
+                        role = user.getRole();
+                        break;
+                    }
                 }
 
                 if (role == null) {
