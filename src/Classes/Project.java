@@ -12,6 +12,8 @@ public class Project {
     private List<Task> tasks;
     private double completionPercentage;
 
+    public Project() {}
+
     public Project(int projectId, String projectName, List<Integer> teamMembers, Integer PMId, List<Task> tasks, double completionPercentage) {
         this.projectId = String.valueOf(projectId);
         this.projectName = projectName;

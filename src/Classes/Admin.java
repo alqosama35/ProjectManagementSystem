@@ -12,7 +12,7 @@ public class Admin {
         fileManager.saveToFile(Users, "users");
     }
 
-    public void updateUser(User user){
+    public  void updateUser(User user){
         ArrayList<User> Users = (ArrayList<User>) fileManager.readFromFile("users", User[].class);
         int index = Users.indexOf(user);
         Users.set(index, user);
