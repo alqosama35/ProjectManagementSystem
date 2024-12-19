@@ -5,7 +5,6 @@ import Classes.Penalty;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PenaltyViewer {
@@ -55,12 +54,5 @@ public class PenaltyViewer {
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        List<Penalty> penalties = new ArrayList<>();
-        penalties.add(new Penalty("Late submission", 50.0));
-
-        new PenaltyViewer(penalties);
     }
 }
