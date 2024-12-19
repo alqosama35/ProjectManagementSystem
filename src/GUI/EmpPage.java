@@ -5,17 +5,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import Classes.Employee;
+import Classes.Penalty;
+
+import java.util.ArrayList;
+
+import Utils.FileManager;
+
 public class EmpPage {
 
     private JButton button1;
     private JButton button2;
     private JButton button3;
+    private JButton button4;
 
-    public EmpPage() {
+    public EmpPage(Employee emp) {
         // Initialize the buttons
-        button1 = new JButton("Button 1");
-        button2 = new JButton("Button 2");
-        button3 = new JButton("Button 3");
+        button1 = new JButton("Working Hours");
+        button2 = new JButton("View Penalties");
+        button3 = new JButton("Request Vacation");
+        button4 = new JButton("View and Check Tasks");
 
         // Set up button actions
         button1.addActionListener(new ActionListener() {
@@ -30,7 +39,15 @@ public class EmpPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Action for Button 2
-                JOptionPane.showMessageDialog(null, "Button 2 clicked!");
+                ArrayList <Penalty> penalties = new ArrayList<>();
+                FileManager fileManager = new FileManager();
+                ArrayList<Employee> users = fileManager.readArrayFromFile("User", Employee[].class);
+                for (Employee employee : users) {
+                    if (employee.getUserId() == emp.getUserId()) {
+                        penalties = employee.getPenalties();
+                    }
+                }
+                new PenaltyViewer(penalties);
             }
         });
 
@@ -52,6 +69,7 @@ public class EmpPage {
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
+        panel.add(button4);
 
         return panel;
     }
@@ -59,7 +77,8 @@ public class EmpPage {
     public static void main(String[] args) {
         // Create the frame for the Employee Page
         JFrame frame = new JFrame("Employee Page");
-        EmpPage empPage = new EmpPage();
+        Employee emp = new Employee("john.doe@example.com","hashed_password");
+        EmpPage empPage = new EmpPage(emp);
 
         // Set the content of the frame to the panel created in EmpPage
         frame.setContentPane(empPage.createPanel());
