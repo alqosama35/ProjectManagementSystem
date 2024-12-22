@@ -5,7 +5,7 @@ import Enum.TaskStatus;
 import static Enum.TaskStatus.PENDING;
 
 public class Task {
-    private static int idCounter = 0; // Static counter for taskId
+    private static int idCounter = 1; // Static counter for taskId
     private int taskId;
     private String description;
     private TaskStatus status; // Assuming TaskStatus is an enum or class

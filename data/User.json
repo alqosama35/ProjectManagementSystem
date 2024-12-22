@@ -6,8 +6,8 @@
     ],
     "workHours": [
       {
-        "entryTime": "Dec 10, 2024, 10:00:00 AM",
-        "exitTime": "Dec 10, 2024, 6:00:00 PM",
+        "entryTime": "Dec 10, 2024, 10:00:00 AM",
+        "exitTime": "Dec 10, 2024, 6:00:00 PM",
         "duration": "8"
       }
     ],
@@ -16,7 +16,7 @@
         "penaltyId": 1,
         "description": "Late submission",
         "amount": 50.0,
-        "date": "Dec 1, 2024, 12:00:00 AM"
+        "date": "Dec 1, 2024, 12:00:00 AM"
       }
     ],
     "vecationRequests": [
@@ -27,9 +27,9 @@
           "name": "John Doe",
           "email": "john.doe@example.com"
         },
-        "startDate": "Dec 15, 2024, 12:00:00 AM",
-        "endDate": "Dec 20, 2024, 12:00:00 AM",
-        "status": "Rejected"
+        "startDate": "Dec 15, 2024, 12:00:00 AM",
+        "endDate": "Dec 20, 2024, 12:00:00 AM",
+        "status": "Approved"
       }
     ],
     "userId": 1,
@@ -46,13 +46,7 @@
         "penaltyId": 1,
         "description": "Unprofessional behavior",
         "amount": 300.0,
-        "date": "Dec 19, 2024, 1:28:21 AM"
-      },
-      {
-        "penaltyId": 1,
-        "description": "stupid",
-        "amount": 600.0,
-        "date": "Dec 19, 2024, 2:21:50 AM"
+        "date": "Dec 19, 2024, 1:28:21 AM"
       }
     ],
     "vecationRequests": [
@@ -63,9 +57,9 @@
           "name": "Jane Smith",
           "email": "jane.smith@example.com"
         },
-        "startDate": "Dec 20, 2024, 12:00:00 AM",
-        "endDate": "Dec 25, 2024, 12:00:00 AM",
-        "status": "Pending"
+        "startDate": "Dec 20, 2024, 12:00:00 AM",
+        "endDate": "Dec 25, 2024, 12:00:00 AM",
+        "status": "Approved"
       }
     ],
     "userId": 2,
@@ -94,11 +88,7 @@
     "name": "Abdo",
     "email": "bob.johnson@example.com",
     "role": "PM",
-    "password": "password123",
-    "managedProjects": [
-      1,
-      2
-    ]
+    "password": "password123"
   },
   {
     "assignedTasks": [],

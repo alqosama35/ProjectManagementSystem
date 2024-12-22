@@ -1,12 +1,13 @@
 package GUI;
 
 import Classes.Project;
+import Classes.ProjectManager;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import Classes.ProjectManager;
+
 
 public class ProjectManagerPage {
 
@@ -151,9 +152,10 @@ public class ProjectManagerPage {
         reportFrame.setVisible(true);
     }
 
+    // Random completion percentage between 50% and 100%
     private double completionPercentage() {
         Random random = new Random();
-        return 50 + random.nextDouble() * 50; // Random completion percentage between 50% and 100%
+        return 50 + random.nextDouble() * 50;
     }
 
     public static void main(String[] args) {
@@ -175,4 +177,5 @@ public class ProjectManagerPage {
         Random random = new Random();
         return 50 + random.nextDouble() * 50;
     }
+
 }

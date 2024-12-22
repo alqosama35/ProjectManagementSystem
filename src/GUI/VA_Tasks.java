@@ -118,7 +118,7 @@ public class VA_Tasks {
 
             // Create and assign the task
             Task task = new Task(taskDescription, assignedToId, deadline);
-            teamLeader.assignTask(task, null); // Null can be replaced with actual logic for assigning
+            teamLeader.assignTask(task, teamLeader.getEmployeeById(assignedToId)); // Null can be replaced with actual logic for assigning
 
             // Update Task.json file
             ArrayList<Task> tasksList = fileManager.readArrayFromFile("Task", Task[].class);

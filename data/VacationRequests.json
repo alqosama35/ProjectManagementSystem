@@ -1,0 +1,15 @@
+[
+  {
+    "requestId": 1,
+    "requester": {
+      "userId": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "role": "EMP",
+      "password": "hashed_password"
+    },
+    "startDate": "Oct 12, 2023, 12:00:00 AM",
+    "endDate": "Oct 12, 2023, 12:00:00 AM",
+    "status": "Pending"
+  }
+]

@@ -2,10 +2,24 @@ package Classes;
 import Utils.FileManager;
 import java.util.ArrayList;
 import java.util.List;
-public class Admin {
+import Enum.Role;
+
+import static Enum.Role.ADMIN;
+import static Enum.Role.EMP;
+
+public class Admin extends User{
 
     FileManager fileManager=new FileManager();
+    // Constructor for new Employee
+    public Admin(String name, String email, Role role, String password) {
+        super(name, email, role, password);
 
+    }
+
+    // Constructor for login
+    public Admin(String email, String password) {
+        super(email, password);
+    }
 //    public void addUser(User user){
 //       // ArrayList<User> Users = (ArrayList<User>) fileManager.readFromFile("User", User[].class);
 //        ArrayList<User> Users = null;
@@ -24,7 +38,7 @@ public class Admin {
             Users = new ArrayList<>(); // Initialize if null
         }
         Users.add(user);
-        fileManager.saveToFile(Users, "User");
+        fileManager.updateFile(Users, "User");
     }
 
     public  void updateUser (User user){
@@ -64,6 +78,26 @@ public class Admin {
     }
     public <Arraylist> Object getAllUser(){
         return (ArrayList<User>) fileManager.readArrayFromFile("User", User[].class);
+    }
+
+    // Login method
+    public boolean login() {
+        FileManager fileManager = new FileManager();
+        User[] users = (User[]) fileManager.readFromFile("User", Employee[].class);
+        for (User user : users) {
+            if (user.getEmail().equals(super.getEmail())
+                    && user.getPassword().equals(super.getPassword())
+                    && user.getRole() == ADMIN) {
+                // Initialize the object with the found user's details
+                this.setUserId(user.getUserId());
+                this.setName(user.getName());
+                this.setEmail(user.getEmail());
+                this.setRole(user.getRole());
+                this.setPassword(user.getPassword());
+                return true;
+            }
+        }
+        return false;
     }
 
 }

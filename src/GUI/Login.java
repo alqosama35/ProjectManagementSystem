@@ -128,6 +128,14 @@ public class Login {
 
     private void openAdminPage(Admin admin) {
         // Implement the method to open the Admin page
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                AdminGUI teamLeaderPage = new AdminGUI(admin);
+                teamLeaderPage.showGUI();
+            }
+        });
+
     }
 
     public void showLoginDialog() {

@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static Enum.Role.EMP;
+
 public class AdminGUI {
     private JFrame mainFrame;
     private JPanel mainPanel, projectPanel, userPanel;
@@ -18,8 +20,8 @@ public class AdminGUI {
     private DefaultTableModel projectTableModel;
     private Admin admin;
 
-    public AdminGUI() {
-        admin = new Admin();
+    public AdminGUI(Admin admin) {
+
 
         mainFrame = new JFrame("Admin Panel");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,13 +106,8 @@ public class AdminGUI {
                 String password = passwordField.getText();
 
 
-                User newUser = new User() {
-                    @Override
-                    public boolean login() {
-                        return false;
-                    }
-                };
-                admin.addUser(newUser);
+//                Employee newUser = new Employee(username, email, EMP, password) {};
+//                admin.addUser(newUser);
                 JOptionPane.showMessageDialog(mainFrame, "User added successfully.");
             }
         });
@@ -199,6 +196,9 @@ public class AdminGUI {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new AdminGUI());
+        //SwingUtilities.invokeLater(() -> new AdminGUI(Admin admin));
+    }
+    public void showGUI() {
+        SwingUtilities.invokeLater(() -> new AdminGUI(admin));
     }
 }

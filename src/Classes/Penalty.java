@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class Penalty {
-    private static int idCounter = 0; // Static counter for unique IDs
+    private static int idCounter = 1; // Static counter for unique IDs
     private int penaltyId;
     private String description;
     private double amount;
